@@ -18,6 +18,21 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.members, name='members')
+    path('', views.welcome, name='welcome'),
+    path('dashboard', views.dashboard, name='dashboard'),
+    path('login', views.loginT, name='login'),
+    path('logout', views.logout, name='logout'),
+    path('product', views.product, name='product'),
+    path('product/add', views.productAdd, name='product/add'),
+    path('product/edit/<int:id>', views.productEdit, name='product/edit'),
+    path('product/update/<int:id>', views.productUpdate, name='product/update'),
+    path('product/delete/<int:id>', views.productDelete, name='product/delete'),
+    path('vendor', views.vendor, name='vendor'),
+    path('vendor/add', views.vendorAdd, name='vendor/add'),
+    path('vendor/edit/<int:id>', views.vendorEdit, name='vendor/edit'),
+    path('vendor/delete/<int:id>', views.vendorDelete, name='vendor/delete'),
+    path('transaction', views.transaction, name='transaction'),
+    path('transaction/add', views.transactionAdd, name='transaction/add'),
+    path('transaction/edit/<int:id>', views.transactionEdit, name='transaction/edit'),
+    path('transaction/delete/<int:id>', views.transactionDelete, name='transaction/delete')
 ]
