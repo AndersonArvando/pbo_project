@@ -11,10 +11,8 @@ from members.forms import ProductForm
 import pickle
 import pandas as pd
 import numpy as np
-import joblib
 
-model = joblib.load("random_forest_model.pkl")
-
+model = pickle.load(open('rf.pkl','rb'))
 
 def welcome(request):
     
@@ -24,6 +22,7 @@ def welcome(request):
     restock = None
     data = request.GET.get('predict')
     stock = request.GET.get('Stock')
+    produk = None
     if data:
         # Extract input values from the GET request
         diskon = request.GET.get('Diskon (%)')
@@ -34,6 +33,7 @@ def welcome(request):
         vendor = request.GET.get('Vendor')
         cuaca = request.GET.get('Cuaca')
         holiday = request.GET.get('Holiday')
+        produk = request.GET.get('Produk')
 
         # Ensure all required inputs are provided
         # if not all([diskon, shelf_life, hari, harga, kategori, vendor, cuaca, holiday]):
@@ -44,22 +44,25 @@ def welcome(request):
             'Product ID': [1037],
             'Diskon (%)': [diskon],
             'Shelf life (D)': [shelf_life],
-            'Weekend': [0 if hari == 'Weekday' else 1],
-            'Weekday': [1 if hari == 'Weekday' else 0],
+            'Weekend': [1 if hari in ['5','6'] else 0],
+            'Weekday': [hari],
             'Harga': [harga],
             'Kategori': [kategori],
             'Vendor': [vendor],
             'Cuaca': [cuaca],
-            'Holiday': [holiday]
+            'Holiday': [holiday],
+            'Nama Produk': [produk]
         }
+        print(data)
 
         # Convert to DataFrame
         input_df = pd.DataFrame(data)
 
         # Check the input DataFrame
         demand_prediction = int(model.predict(input_df)[0])
+        # demand_prediction = 1
         restock = math.floor(int(stock) / int(demand_prediction))
-    return render(request,"index.html",{'products': products, 'vendors': vendors, 'demand_prediction': demand_prediction, 'stock': stock, 'restock': restock})
+    return render(request,"index.html",{'products': products, 'vendors': vendors, 'demand_prediction': demand_prediction, 'stock': stock, 'restock': restock, 'produk_name': produk})
 
 def dashboard(request):
     template = loader.get_template('dashboard.html')

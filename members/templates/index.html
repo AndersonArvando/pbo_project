@@ -47,7 +47,7 @@
         <div class="container">
             <div class="masthead-subheading">Welcome To Vavison!</div>
             <div class="masthead-heading text-uppercase">It's Nice To Meet You</div>
-            <a class="btn btn-primary btn-xl text-uppercase" href="#services">Tell Me More</a>
+            <!-- <a class="btn btn-primary btn-xl text-uppercase" href="#services">Tell Me More</a> -->
         </div>
     </header>
     <form action="">
@@ -58,7 +58,7 @@
             </div>
             <div class="mb-3">
                 {% if demand_prediction is not None %}
-                    Barang ini dengan stock <strong>{{stock}}</strong>,<br>
+                    Produk ini dengan stock <strong>{{stock}}</strong>,<br>
                     Prediksi demand: <strong>{{demand_prediction}}</strong><br>
                     Jika ambil demand ini sebagai rata-rata dan jumlah stock <b>{{stock}}</b> <br>
                     Rekomendasi restok dalam <b>{{ restock }} hari</b>
@@ -82,8 +82,13 @@
                     <div class="mb-3">
                         <label for="Hari">Hari</label>
                         <select name="Hari" class="form-select form-control" id="Hari" required>
-                            <option value="Weekday">Weekday</option>
-                            <option value="Weekend">Weekend</option>
+                            <option value="0">Senin</option>
+                            <option value="1">Selasa</option>
+                            <option value="2">Rabu</option>
+                            <option value="3">Kamis</option>
+                            <option value="4">Jumat</option>
+                            <option value="5">Sabtu</option>
+                            <option value="6">Minggu</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -102,9 +107,9 @@
                     </div>
                     <div class="mb-3">
                         <label for="Product ID">Product</label>
-                        <select required name="Product ID" class="form-select form-control" id="Product ID">
+                        <select required name="Produk" class="form-select form-control" id="Product ID">
                             {% for product in products %}
-                            <option value="{{product.id}}">{{product.product_name}}</option>
+                            <option value="{{product.product_name}}">{{product.product_name}}</option>
                             {% endfor %}
                         </select>
                     </div>
